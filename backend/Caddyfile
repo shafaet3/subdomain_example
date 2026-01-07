@@ -1,0 +1,19 @@
+{
+	admin 127.0.0.1:2019
+	local_certs
+}
+
+emmai.app, *.emmai.app, *.emmai.127.0.0.1.nip.io {
+	handle_path /api/* {
+		reverse_proxy 127.0.0.1:4000
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3000 {
+			header_up Host {host}
+			transport http {
+				versions 1.1 2
+			}
+		}
+	}
+}
